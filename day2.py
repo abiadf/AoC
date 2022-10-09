@@ -6,16 +6,14 @@
 import numpy as np
 
 file_np = np.loadtxt('day1_data.txt')
-# print(file_np)
 
-sum_array = np.array([1])
-np.append(sum_array, [2])#, axis=0)
-print(sum_array)
+triplets = np.zeros([2000-2])
 
-# for i, val in enumerate(file_np):
-#     if i <= len(file_np)-3:
-#         sum_3 = file_np[i] + file_np[i+1] + file_np[i+2]
-#         np.append(sum_array, sum_3)
+for i, val in enumerate(file_np):
+    if i < 1998:
+        triplets[i] = np.sum(file_np[i:i+3])
 
-print(sum_array)
+triplets_diff = np.diff(triplets)
+increasing = triplets_diff[triplets_diff > 0]
 
+print(len(increasing) )
