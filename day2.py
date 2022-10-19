@@ -3,17 +3,26 @@
 @author: Fouad
 """
 
-import numpy as np
+command = []
+with open('day2_data.txt') as l:
+    for lines in l.readlines():
+        command.append(lines[:-1]) #removes last character: \n
+        
+up     = 0
+down   = 0
+forward= 0
 
-file_np = np.loadtxt('day1_data.txt')
+for i,val in enumerate(command):
+    if val[0] == 'f':
+        forward += int(val[-1])
+    elif val[0]=='u':
+        up += int(val[-1])
+    elif val[0]=='d':
+        down += int(val[-1])
 
-triplets = np.zeros([2000-2])
+vertical = down - up
+print(vertical, forward)
+print(vertical * forward)
 
-for i, val in enumerate(file_np):
-    if i < 1998:
-        triplets[i] = np.sum(file_np[i:i+3])
 
-triplets_diff = np.diff(triplets)
-increasing = triplets_diff[triplets_diff > 0]
 
-print(len(increasing) )
