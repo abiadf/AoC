@@ -34,15 +34,11 @@ def most_common_bit(counter):
     co_counter = list(map(lambda x: 1 - x, ox_counter))
     return ox_counter, co_counter
 
-def binary2dec(num):
-    '''Converts binary number to decimal: 110 = 6'''
-    num_str = list(reversed(str(num)))
-    decimal = 0
-    for i, val in enumerate(num_str):
-        decimal += int(val) * np.power(2,int(i))
-    return decimal
-
-def element_final(command_elem, rating):
+def element_criterion(rating):
+    '''Gives the final element criterion'''
+    CRIT = '.' # replace value when criterion is not met
+    command_elem = copy.deepcopy(command_np) # copy the element array
+    
     for j, v in enumerate(rating):
         for i, val in enumerate(command_np):
             if int(val[j]) != v:
@@ -52,21 +48,16 @@ def element_final(command_elem, rating):
                 if np.count_nonzero(command_elem == CRIT) == len(command_np)-1:
                     elem_final = command_elem
                     break
-    element_crit = elem_final[ elem_final != CRIT ] [0] #keep first element
+    element_crit = elem_final[elem_final != CRIT] [0] #keep first element
     return element_crit
 
-# def co_final():
-#     for j, v in enumerate(co_rating):
-#         for i, val in enumerate(command_np):
-#             if int(val[j]) != v:
-#                 command_CO[i] = CRIT
-                
-#                 #stop iterating when there is one remaining element
-#                 if np.count_nonzero(command_CO == CRIT) == len(command_np)-1:
-#                     co_final = command_CO
-#                     break
-#     co_crit = co_final[ co_final != CRIT ] [0] #keep first element
-#     return co_crit
+def binary2dec(num):
+    '''Converts binary number to decimal: 110 = 6'''
+    num_str = list(reversed(str(num)))
+    decimal = 0
+    for i, val in enumerate(num_str):
+        decimal += int(val) * np.power(2,int(i))
+    return decimal
 
 # %% Finding the most common element
 
@@ -77,19 +68,15 @@ half = len(command)/2
 
 count_ones = digit_count()
 ox_rating, co_rating = most_common_bit(count_ones)
-
-command_OX = copy.deepcopy(command_np) #oxygen copy
-command_CO = copy.deepcopy(command_np) #carbon copy
-
-CRIT = '.' #replace value when criterion is not met
-
-ox_crit = element_final(command_OX, ox_rating)
-co_crit = element_final(command_CO, co_rating)
+ox_crit = element_criterion(ox_rating)
+co_crit = element_criterion(co_rating)
 
 print(ox_crit)
 print(co_crit)
 
 ox_dec = binary2dec(ox_crit)
 co_dec = binary2dec(co_crit)
-ok3 = ox_dec * co_dec
-print(ok3)
+
+crit = ox_dec * co_dec
+print(crit)
+
